@@ -1,0 +1,62 @@
+{
+  "kind": "collectionType",
+  "collectionName": "restaurants",
+  "info": {
+    "singularName": "restaurant",
+    "pluralName": "restaurants",
+    "displayName": "Restaurant"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "location": {
+      "type": "text",
+      "required": true
+    },
+    "number_of_tables": {
+      "type": "integer",
+      "required": true
+    },
+    "owner": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "restaurants"
+    },
+    "tables": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::table.table",
+      "mappedBy": "restaurant"
+    },
+    "menu_items": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::menu-item.menu-item",
+      "mappedBy": "restaurant"
+    },
+    "cart_items": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::cart-item.cart-item",
+      "mappedBy": "restaurant"
+    },
+    "orders": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::order.order",
+      "mappedBy": "restaurant"
+    },
+    "feedbacks": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::feedback.feedback",
+      "mappedBy": "restaurant"
+    }
+  }
+}

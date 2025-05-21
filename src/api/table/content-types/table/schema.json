@@ -1,0 +1,34 @@
+{
+  "kind": "collectionType",
+  "collectionName": "tables",
+  "info": {
+    "singularName": "table",
+    "pluralName": "tables",
+    "displayName": "Table"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "table_number": {
+      "required": true,
+      "type": "integer"
+    },
+    "qr_code_url": {
+      "type": "string",
+      "required": true
+    },
+    "restaurant": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::restaurant.restaurant",
+      "inversedBy": "tables"
+    },
+    "orders": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::order.order",
+      "mappedBy": "table"
+    }
+  }
+}
