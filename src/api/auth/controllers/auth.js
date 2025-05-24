@@ -1,27 +1,25 @@
+// controller/auth.js
 'use strict';
-
-const { sanitize } = require('@strapi/utils');
 
 module.exports = {
   async customRegister(ctx) {
     const { email, username, password } = ctx.request.body;
 
-    // Check for missing fields
     if (!email || !username || !password) {
       return ctx.badRequest('Email, username, and password are required.');
     }
 
     try {
-      // Check if a user with the same email already exists
-      const existingUser = await strapi.db.query('plugin::users-permissions.user').findOne({
-        where: { email },
-      });
+      // Check for existing user
+      const existingUser = await strapi.db
+        .query('plugin::users-permissions.user')
+        .findOne({ where: { email } });
 
       if (existingUser) {
         return ctx.conflict('Email is already in use.');
       }
 
-      // Create the new user
+      // Create user without logging in
       const newUser = await strapi
         .plugin('users-permissions')
         .service('user')
@@ -29,19 +27,21 @@ module.exports = {
           email,
           username,
           password,
-          confirmed: true, // Optional: auto-confirm the user
+          confirmed: true,
+          provider: 'local',
         });
 
-      // Sanitize user object to remove sensitive fields
-      const sanitizedUser = await sanitize.contentAPI.output(
-        newUser,
-        strapi.getModel('plugin::users-permissions.user')
-      );
+      const sanitizedUser = {
+        id: newUser.id,
+        username: newUser.username,
+        email: newUser.email,
+        createdAt: newUser.createdAt,
+      };
 
-      return ctx.send({ user: sanitizedUser });
+      return ctx.send({ user: sanitizedUser }); // No JWT
     } catch (error) {
-      strapi.log.error('Error in customRegister:', error);
-      return ctx.internalServerError('An error occurred during registration.');
+      strapi.log.error('Registration failed:', error);
+      return ctx.internalServerError('Registration failed.');
     }
   },
 };
