@@ -11,10 +11,6 @@ module.exports = {
     }
 
     try {
-      // Log login attempt
-      strapi.log.info(`Login attempt for identifier: ${identifier}`);
-
-      // Find user
       const user = await strapi.db.query('plugin::users-permissions.user').findOne({
         where: {
           $or: [
@@ -26,24 +22,30 @@ module.exports = {
       });
 
       if (!user) {
-        strapi.log.warn(`No user found for identifier: ${identifier}`);
         return ctx.unauthorized('Invalid credentials');
       }
 
-      // Compare password
       const isPasswordValid = await bcrypt.compare(password, user.password);
       if (!isPasswordValid) {
-        strapi.log.warn(`Invalid password for identifier: ${identifier}`);
         return ctx.unauthorized('Invalid credentials');
       }
 
-      // Generate JWT
+      // 🟩 Check if user is admin
+      const isAdmin = user.role?.name === 'admin';
+      let restaurantData = null;
+
+      if (isAdmin) {
+        // Get restaurant data linked to the user if available
+        restaurantData = await strapi.db.query('api::restaurant.restaurant').findOne({
+          where: { user: user.id }, // adjust the condition based on your relation setup
+        });
+      }
+
       const jwt = strapi
         .plugin('users-permissions')
         .service('jwt')
         .issue({ id: user.id });
 
-      // Manual sanitization
       const sanitizedUser = {
         id: user.id,
         username: user.username,
@@ -53,9 +55,7 @@ module.exports = {
         role: user.role?.name || 'unknown',
       };
 
-      strapi.log.info(`Login successful for identifier: ${identifier}`);
-
-      return ctx.send({ jwt, user: sanitizedUser });
+      return ctx.send({ jwt, user: sanitizedUser, restaurant: restaurantData });
 
     } catch (err) {
       strapi.log.error('Login error:', err);
