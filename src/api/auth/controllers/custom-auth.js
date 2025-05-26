@@ -1,5 +1,4 @@
 'use strict';
-
 const bcrypt = require('bcryptjs');
 
 module.exports = {
@@ -30,15 +29,19 @@ module.exports = {
         return ctx.unauthorized('Invalid credentials');
       }
 
-      // 🟩 Check if user is admin
-      const isAdmin = user.role?.name === 'admin';
+      // 🟩 Get related restaurant using entityService (best for relations)
       let restaurantData = null;
-
-      if (isAdmin) {
-        // Get restaurant data linked to the user if available
-        restaurantData = await strapi.db.query('api::restaurant.restaurant').findOne({
-          where: { user: user.id }, // adjust the condition based on your relation setup
+      if (user.role?.name === 'Admin') {
+        const restaurants = await strapi.entityService.findMany('api::restaurant.restaurant', {
+          filters: {
+            owner: {
+              id: user.id,
+            },
+          },
+          populate: ['*'],
         });
+
+        restaurantData = Array.isArray(restaurants) && restaurants.length > 0 ? restaurants[0] : null;
       }
 
       const jwt = strapi
