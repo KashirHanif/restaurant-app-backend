@@ -4,7 +4,8 @@
   "info": {
     "singularName": "order",
     "pluralName": "orders",
-    "displayName": "Order"
+    "displayName": "Order",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -13,8 +14,8 @@
     "order_status": {
       "type": "enumeration",
       "enum": [
-        "processing,",
-        "preparing,",
+        "processing",
+        "preparing",
         "prepared"
       ]
     },
@@ -25,7 +26,7 @@
     "payment_status": {
       "type": "enumeration",
       "enum": [
-        "paid,",
+        "paid",
         "unpaid"
       ]
     },
