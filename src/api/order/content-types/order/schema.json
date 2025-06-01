@@ -16,7 +16,8 @@
       "enum": [
         "processing",
         "preparing",
-        "prepared"
+        "prepared",
+        "served"
       ]
     },
     "total_price": {

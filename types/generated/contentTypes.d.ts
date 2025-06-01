@@ -565,7 +565,7 @@ export interface ApiOrderOrder extends Struct.CollectionTypeSchema {
       'api::order-item.order-item'
     >;
     order_status: Schema.Attribute.Enumeration<
-      ['processing', 'preparing', 'prepared']
+      ['processing', 'preparing', 'prepared', 'served']
     >;
     payment_status: Schema.Attribute.Enumeration<['paid', 'unpaid']>;
     publishedAt: Schema.Attribute.DateTime;
