@@ -1,5 +1,6 @@
 'use strict';
 const bcrypt = require('bcryptjs');
+const { rest } = require('../../../../config/api');
 
 module.exports = {
   async customLogin(ctx) {
@@ -20,6 +21,7 @@ module.exports = {
         populate: ['role'],
       });
 
+       console.log(user);
       if (!user) {
         return ctx.unauthorized('Invalid credentials');
       }
@@ -30,6 +32,7 @@ module.exports = {
       }
 
       // 🟩 Get related restaurant using entityService (best for relations)
+     
       let restaurantData = null;
       if (user.role?.name === 'Admin') {
         const restaurants = await strapi.entityService.findMany('api::restaurant.restaurant', {
@@ -42,6 +45,7 @@ module.exports = {
         });
 
         restaurantData = Array.isArray(restaurants) && restaurants.length > 0 ? restaurants[0] : null;
+  
       }
 
       const jwt = strapi

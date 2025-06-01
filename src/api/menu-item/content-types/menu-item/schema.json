@@ -4,7 +4,8 @@
   "info": {
     "singularName": "menu-item",
     "pluralName": "menu-items",
-    "displayName": "MenuItem"
+    "displayName": "MenuItem",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -47,6 +48,10 @@
       "relation": "oneToMany",
       "target": "api::order-item.order-item",
       "mappedBy": "menu_item"
+    },
+    "time_for_preparation": {
+      "type": "integer",
+      "default": 30
     }
   }
 }

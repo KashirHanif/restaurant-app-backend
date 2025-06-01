@@ -462,6 +462,7 @@ export interface ApiFeedbackFeedback extends Struct.CollectionTypeSchema {
 export interface ApiMenuItemMenuItem extends Struct.CollectionTypeSchema {
   collectionName: 'menu_items';
   info: {
+    description: '';
     displayName: 'MenuItem';
     pluralName: 'menu-items';
     singularName: 'menu-item';
@@ -499,6 +500,8 @@ export interface ApiMenuItemMenuItem extends Struct.CollectionTypeSchema {
       'manyToOne',
       'api::restaurant.restaurant'
     >;
+    time_for_preparation: Schema.Attribute.Integer &
+      Schema.Attribute.DefaultTo<30>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
