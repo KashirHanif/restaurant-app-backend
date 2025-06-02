@@ -511,6 +511,7 @@ export interface ApiMenuItemMenuItem extends Struct.CollectionTypeSchema {
 export interface ApiOrderItemOrderItem extends Struct.CollectionTypeSchema {
   collectionName: 'order_items';
   info: {
+    description: '';
     displayName: 'OrderItem';
     pluralName: 'order-items';
     singularName: 'order-item';
@@ -537,6 +538,8 @@ export interface ApiOrderItemOrderItem extends Struct.CollectionTypeSchema {
     quantity: Schema.Attribute.Integer &
       Schema.Attribute.Required &
       Schema.Attribute.DefaultTo<1>;
+    time_for_preparation: Schema.Attribute.Integer &
+      Schema.Attribute.DefaultTo<30>;
     unit_price: Schema.Attribute.Decimal & Schema.Attribute.Required;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
