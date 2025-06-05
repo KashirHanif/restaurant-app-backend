@@ -63,6 +63,11 @@
       "relation": "oneToMany",
       "target": "api::feedback.feedback",
       "mappedBy": "order"
+    },
+    "order_number": {
+      "type": "string",
+      "required": true,
+      "unique": true
     }
   }
 }

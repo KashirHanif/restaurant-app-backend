@@ -4,7 +4,8 @@
   "info": {
     "singularName": "feedback",
     "pluralName": "feedbacks",
-    "displayName": "Feedback"
+    "displayName": "Feedback",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -33,6 +34,9 @@
       "relation": "manyToOne",
       "target": "api::order.order",
       "inversedBy": "feedbacks"
+    },
+    "comment": {
+      "type": "text"
     }
   }
 }

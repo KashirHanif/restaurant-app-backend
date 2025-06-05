@@ -417,6 +417,7 @@ export interface ApiCartItemCartItem extends Struct.CollectionTypeSchema {
 export interface ApiFeedbackFeedback extends Struct.CollectionTypeSchema {
   collectionName: 'feedbacks';
   info: {
+    description: '';
     displayName: 'Feedback';
     pluralName: 'feedbacks';
     singularName: 'feedback';
@@ -425,6 +426,7 @@ export interface ApiFeedbackFeedback extends Struct.CollectionTypeSchema {
     draftAndPublish: true;
   };
   attributes: {
+    comment: Schema.Attribute.Text;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -570,6 +572,9 @@ export interface ApiOrderOrder extends Struct.CollectionTypeSchema {
       'oneToMany',
       'api::order-item.order-item'
     >;
+    order_number: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
     order_status: Schema.Attribute.Enumeration<
       ['processing', 'preparing', 'prepared', 'served']
     >;
