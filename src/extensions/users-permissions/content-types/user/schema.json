@@ -9,7 +9,7 @@
     "displayName": "User"
   },
   "options": {
-    "timestamps": true
+    "draftAndPublish": false
   },
   "attributes": {
     "username": {
@@ -88,6 +88,9 @@
       "relation": "oneToMany",
       "target": "api::feedback.feedback",
       "mappedBy": "user"
+    },
+    "push_token": {
+      "type": "text"
     }
   }
 }
